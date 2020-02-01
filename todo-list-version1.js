@@ -57,11 +57,11 @@ var todoList = {
 
     // If all todo's are true, make them all false
     if (completedTodos === totalTodos) {
-      for (var i = 0; i < totalTodos; i++) {
+      for (i = 0; i < totalTodos; i++) {
         this.todos[i].completed = false;
       }
     } else { // Make them all true
-      for (var i = 0; i < totalTodos; i++) {
+      for (i = 0; i < totalTodos; i++) {
         this.todos[i].completed = true;
       }
     }
@@ -69,3 +69,16 @@ var todoList = {
   },
 
 };
+
+// Creating event listeners for the the display and toggle all buttons
+var displayTodosButton = document.getElementById("displayTodosButton");
+
+displayTodosButton.addEventListener('click', function () {
+  todoList.displayTodos();
+});
+
+var toggleAllButton = document.getElementById("toggleAllButton");
+
+toggleAllButton.addEventListener('click', function () {
+  todoList.toggleAll();
+});

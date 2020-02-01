@@ -42,5 +42,30 @@ var todoList = {
     var todo = this.todos[position];
     todo.completed = !todo.completed;
     this.displayTodos();
-  }
+  },
+
+  // It should have a function to toggle everything true or everything false
+  toggleAll: function () {
+    var totalTodos = this.todos.length;
+    var completedTodos = 0;
+
+    // Count current completed todos
+    for (var i = 0; i < totalTodos; i++) {
+      if (this.todos[i].completed === true)
+        completedTodos++;
+    }
+
+    // If all todo's are true, make them all false
+    if (completedTodos === totalTodos) {
+      for (var i = 0; i < totalTodos; i++) {
+        this.todos[i].completed = false;
+      }
+    } else { // Make them all true
+      for (var i = 0; i < totalTodos; i++) {
+        this.todos[i].completed = true;
+      }
+    }
+    this.displayTodos();
+  },
+
 };

@@ -1,5 +1,8 @@
 var todoList = {
+
+  // Initialize array of todo objects
   todos: [],
+
   // It should have a function to display todos
   displayTodos: function () {
     if (this.todos.length === 0) {
@@ -19,7 +22,7 @@ var todoList = {
   addTodo: function (todoText) {
     this.todos.push({
       todoText: todoText,
-      completed: false
+      completed: false,
     });
     this.displayTodos();
   },
@@ -70,15 +73,51 @@ var todoList = {
 
 };
 
-// Creating event listeners for the the display and toggle all buttons
-var displayTodosButton = document.getElementById("displayTodosButton");
 
-displayTodosButton.addEventListener('click', function () {
-  todoList.displayTodos();
-});
+var handlers = {
+  displayTodos: function () {
+    todoList.displayTodos();
+  },
 
-var toggleAllButton = document.getElementById("toggleAllButton");
+  toggleAll: function () {
+    todoList.toggleAll();
+  },
 
-toggleAllButton.addEventListener('click', function () {
-  todoList.toggleAll();
-});
+  addTodo: function () {
+    // targets text element and runs addTodo using value of element
+    var addTodoTextInput = document.getElementById("addTodoInput");
+    todoList.addTodo(addTodoTextInput.value);
+    // reset text field
+    addTodoTextInput.value = '';
+  },
+
+  changeTodo: function () {
+    var changeTodoPositionInput = document.getElementById("changeTodoPositionInput");
+    var changeTodoTextInput = document.getElementById("changeTodoTextInput");
+
+    // changeTodo requires a position and text as inputs
+    todoList.changeTodo(changeTodoPositionInput.valueAsNumber, changeTodoTextInput.value);
+
+    // reset fields
+    changeTodoPositionInput.value = '';
+    changeTodoTextInput.value = '';
+  },
+
+  deleteTodo: function () {
+    var deleteTodoPositionInput = document.getElementById("deleteTodoPositionInput");
+
+    // deleteTodo requires a position as an input
+    todoList.deleteTodo(deleteTodoPositionInput.valueAsNumber);
+    // reset field
+    deleteTodoPositionInput.value = '';
+  },
+
+  toggleCompleted: function () {
+    var toggleCompletedPositionInput = document.getElementById("toggleCompletedPositionInput");
+
+    // toggleComplete requires a position as an input
+    todoList.toggleCompleted(toggleCompletedPositionInput.valueAsNumber);
+    // reset field
+    toggleCompletedPositionInput.value = '';
+  },
+};

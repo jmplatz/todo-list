@@ -33,21 +33,20 @@ var todoList = {
     var totalTodos = this.todos.length;
     var completedTodos = 0;
 
-    // Count current completed todos
-    for (var i = 0; i < totalTodos; i++) {
-      if (this.todos[i].completed === true)
+    this.todos.forEach(function (todo) {
+      if (todo.completed === true)
         completedTodos++;
-    }
+    });
 
     // If all todo's are true, make them all false
     if (completedTodos === totalTodos) {
-      for (i = 0; i < totalTodos; i++) {
-        this.todos[i].completed = false;
-      }
+      this.todos.forEach(function (todo) {
+        todo.completed = false;
+      });
     } else { // Make them all true
-      for (i = 0; i < totalTodos; i++) {
-        this.todos[i].completed = true;
-      }
+      this.todos.forEach(function (todo) {
+        todo.completed = true;
+      });
     }
   },
 
@@ -56,7 +55,6 @@ var todoList = {
 var handlers = {
   toggleAll: function () {
     todoList.toggleAll();
-
     view.displayTodos();
   },
 
@@ -77,7 +75,6 @@ var handlers = {
     // changeTodo requires a position and text as inputs
     todoList.changeTodo(changeTodoPositionInput.valueAsNumber, changeTodoTextInput.value);
 
-    // reset fields
     changeTodoPositionInput.value = '';
     changeTodoTextInput.value = '';
 
@@ -94,7 +91,6 @@ var handlers = {
 
     // toggleComplete requires a position as an input
     todoList.toggleCompleted(toggleCompletedPositionInput.valueAsNumber);
-    // reset field
     toggleCompletedPositionInput.value = '';
 
     view.displayTodos();
@@ -105,12 +101,10 @@ var handlers = {
 var view = {
   displayTodos: function () {
     var todosUl = document.getElementById("todosUl");
-    // clear content before entering loop
     todosUl.innerHTML = '';
 
-    for (var i = 0; i < todoList.todos.length; i++) {
+    todoList.todos.forEach(function (todo, position) {
       var todoLi = document.createElement("li");
-      var todo = todoList.todos[i];
       var textWithCompletion = '';
 
       if (todo.completed === true) {
@@ -119,12 +113,13 @@ var view = {
         textWithCompletion = "(     ) " + todo.todoText;
       }
 
-      // giving each li an id that can be used for position in array
-      todoLi.id = i;
+      // gives each li an id based on position
+      todoLi.id = position;
       todoLi.textContent = textWithCompletion;
       todoLi.appendChild(this.createDeleteButton());
       todosUl.appendChild(todoLi);
-    }
+
+    }, this);
   },
 
   createDeleteButton: function () {
@@ -139,11 +134,10 @@ var view = {
   setUpEventListeners: function () {
     var todosUl = document.getElementById("todosUl");
 
-    todosUl.addEventListener('click', function (event) {
+    todosUl.addEventListener("click", function (event) {
       var elementClicked = event.target;
 
-      if (elementClicked.className === 'deleteButton') {
-        // Run handlers.deleteTodo
+      if (elementClicked.className === "deleteButton") {
         handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
       }
     });
